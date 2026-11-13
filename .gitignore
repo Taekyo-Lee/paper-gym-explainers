@@ -1,0 +1,13 @@
+# 의존성과 빌드 결과
+node_modules/
+dist/
+.smoke-dist/
+test-results/
+playwright-report/
+
+# 브라우저 점검 도구의 임시 파일
+.playwright-mcp/
+
+# 편집기, OS
+.DS_Store
+*.log

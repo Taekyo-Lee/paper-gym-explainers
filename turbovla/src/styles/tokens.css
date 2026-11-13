@@ -1,0 +1,123 @@
+/* 디자인 토큰.
+   - 배경과 중립색은 일반적인 light/dark 모드 색이다.
+   - 모달리티 색 규칙은 두 테마 모두 같다: 이미지 = teal, 지시 = 보라, state = 회색, action = 주황.
+   - `-ink`는 13–14px 작은 글씨용 변형으로, 두 테마 모두 WCAG AA 4.5:1 이상이다.
+   - <html data-theme>은 index.html의 inline script가 첫 그림 전에 정한다. */
+
+:root {
+  --font-sans: 'Noto Sans KR', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+
+  /* 1440 × 900 화면 공유에서 본문 최소 13px */
+  --fs-xs: 13px;
+  --fs-sm: 14px;
+  --fs-md: 15px;
+  --fs-lg: 18px;
+  --fs-xl: 22px;
+
+  --radius-sm: 6px;
+  --radius: 12px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+:root,
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  --bg: #f7f7f8;
+  --card: #ffffff;
+  --sunken: #f1f1f3;
+  --line: #e4e4e7;
+  --line-strong: #d4d4d8;
+  --ink: #18181b;
+  --muted: #52525b;
+
+  --vision: #3e8a82;
+  --vision-ink: #33766f;
+  --vision-fill: #e6f2f0;
+  --language: #5a4fa0;
+  --language-ink: #5a4fa0;
+  --language-fill: #eeecf7;
+  --state: #8a847d;
+  --state-ink: #6b6560;
+  --state-fill: #efedea;
+  --accent: #c85a32;
+  --accent-ink: #b04a25;
+  --accent-fill: #f9e9e1;
+  /* 칩처럼 꽉 찬 강조 배경과 그 위 글자 */
+  --accent-solid: #b04a25;
+  --on-accent-solid: #ffffff;
+
+  --red-pen: #d9362b;
+  --red-pen-ink: #bf2e24;
+
+  /* 값 색 스케일: 음수 slate ↔ 0 카드 배경 ↔ 양수 ink */
+  --viz-neg: #64748b;
+  --viz-zero: #ffffff;
+  --viz-pos: #18181b;
+
+  /* 장면 그림 (물체의 색이지 모달리티 색이 아니다) */
+  --scene-table: #e9e2d6;
+  --scene-table-edge: #d8cfc0;
+  --scene-plate: #fafafa;
+  --scene-plate-rim: #c9c9cf;
+  --scene-pink: #e58fb0;
+  --scene-blue: #5b8fd6;
+  --scene-green: #6fbf73;
+  --scene-gripper: #3f3f46;
+  --scene-shine: #ffffff;
+
+  --shadow-card: 0 1px 2px rgb(24 24 27 / 0.06), 0 4px 14px rgb(24 24 27 / 0.05);
+  /* 대화 창 뒤를 어둡게 덮는 색 */
+  --scrim: rgb(9 9 11 / 0.42);
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --bg: #0e0f11;
+  --card: #17181b;
+  --sunken: #1f2024;
+  --line: #2a2b30;
+  --line-strong: #3f3f46;
+  --ink: #ececee;
+  --muted: #a1a1aa;
+
+  --vision: #5fb3a8;
+  --vision-ink: #5fb3a8;
+  --vision-fill: #133330;
+  --language: #a196ea;
+  --language-ink: #a196ea;
+  --language-fill: #26224a;
+  --state: #a8a29e;
+  --state-ink: #b4aea9;
+  --state-fill: #2a2826;
+  --accent: #e47a4f;
+  --accent-ink: #ef8d63;
+  --accent-fill: #3b2117;
+  --accent-solid: #e47a4f;
+  --on-accent-solid: #0e0f11;
+
+  --red-pen: #f0665c;
+  --red-pen-ink: #f47b72;
+
+  --viz-neg: #94a3b8;
+  --viz-zero: #17181b;
+  --viz-pos: #ececee;
+
+  --scene-table: #4a4540;
+  --scene-table-edge: #5b554e;
+  --scene-plate: #d9d9de;
+  --scene-plate-rim: #9a9aa2;
+  --scene-pink: #d27a9c;
+  --scene-blue: #4f7fc2;
+  --scene-green: #5ea962;
+  --scene-gripper: #1c1c20;
+  --scene-shine: #ffffff;
+
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.4), 0 4px 14px rgb(0 0 0 / 0.25);
+  --scrim: rgb(0 0 0 / 0.55);
+}

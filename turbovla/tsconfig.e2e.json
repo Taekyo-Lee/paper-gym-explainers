@@ -1,0 +1,9 @@
+{
+  // Playwright smoke test (tests/*.spec.ts). page.evaluate 안의 코드가 브라우저에서 돌므로 DOM 타입을 함께 쓴다.
+  "extends": "./tsconfig.node.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.e2e.tsbuildinfo",
+    "lib": ["ES2023", "DOM"]
+  },
+  "include": ["playwright.config.ts", "tests/**/*.ts"]
+}

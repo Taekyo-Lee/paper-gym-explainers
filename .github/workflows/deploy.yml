@@ -1,0 +1,86 @@
+# 논문 설명 페이지 배포.
+# 앱마다 검사(타입, 단위 테스트, Playwright smoke test)하고 빌드한 뒤, 빌드한 파일과 첫 화면(site/index.html)만 GitHub Pages에 올린다.
+# 주소: https://taekyo-lee.github.io/paper-gym-explainers/  (TurboVLA: .../turbovla/)
+# 새 설명 페이지를 더하면 build job에 같은 단계를 더하고, site/index.html에 링크를 단다.
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# 배포가 겹치지 않게 한다. 진행 중인 배포는 끊지 않는다.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: turbovla/package-lock.json
+
+      # ---------------------------------------------------------------- TurboVLA
+      - name: TurboVLA - install
+        working-directory: turbovla
+        run: npm ci
+
+      - name: TurboVLA - type check and unit tests
+        working-directory: turbovla
+        run: |
+          npm run check
+          npm test
+
+      - name: TurboVLA - smoke test (Playwright, 1440 x 900)
+        working-directory: turbovla
+        run: |
+          npx playwright install --with-deps chromium
+          npm run smoke
+
+      - name: TurboVLA - build
+        working-directory: turbovla
+        env:
+          BASE_PATH: /paper-gym-explainers/turbovla/
+        run: npm run build
+
+      # ---------------------------------------------------------------- Pages에 올릴 폴더
+      - name: Stage the site
+        run: |
+          mkdir -p "$RUNNER_TEMP/site/turbovla"
+          cp -r site/. "$RUNNER_TEMP/site/"
+          cp -r turbovla/dist/. "$RUNNER_TEMP/site/turbovla/"
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: ${{ runner.temp }}/site
+
+      - name: Keep smoke test screenshots
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: smoke-screenshots
+          path: turbovla/test-results/
+          retention-days: 7
+          if-no-files-found: ignore
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5
